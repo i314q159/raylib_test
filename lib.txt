@@ -1,0 +1,2 @@
+https://github.com/raysan5/raylib/releases/tag/6.0
+https://github.com/raysan5/raygui/releases/tag/4.0

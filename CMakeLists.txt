@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 4.3.1)
 project(Raylib_Test C)
 
-set(CMAKE_C_STANDARD 99)
+# raylib
+add_subdirectory(lib/raylib)
 
-# 编译raylib子库
-add_subdirectory(raylib)
+# raygui
+include_directories(lib/raygui/src)
 
 add_executable(test main.c)
 
