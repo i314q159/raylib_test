@@ -27,11 +27,9 @@ float DrawCenterText(const char *text, int fontSize, Color textColor) {
     return textY + fontSize;
 }
 
-bool DrawCenterButtonBelow(float textBottomY, int btnW, int btnH, int space,
-                           const char *btnText) {
+bool DrawCenterButtonBelow(float textBottomY, int btnW, int btnH, int space, const char *btnText) {
     float winW = (float)GetScreenWidth();
-    Rectangle btnRect = {winW / 2.0f - (float)btnW / 2.0f,
-                         textBottomY + (float)space, (float)btnW, (float)btnH};
+    Rectangle btnRect = {winW / 2.0f - (float)btnW / 2.0f, textBottomY + (float)space, (float)btnW, (float)btnH};
     return GuiButton(btnRect, btnText);
 }
 
@@ -47,11 +45,8 @@ int main(void) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        float textBottom =
-            DrawCenterText("Raylib_Test", UI_TEXT_FONT_SIZE, UI_COLOR_TEXT);
-        bool clicked =
-            DrawCenterButtonBelow(textBottom, UI_BTN_WIDTH, UI_BTN_HEIGHT,
-                                  UI_TEXT_BTN_SPACE, "START");
+        float textBottom = DrawCenterText("Raylib_Test", UI_TEXT_FONT_SIZE, UI_COLOR_TEXT);
+        bool clicked = DrawCenterButtonBelow(textBottom, UI_BTN_WIDTH, UI_BTN_HEIGHT, UI_TEXT_BTN_SPACE, "START");
 
         if (clicked) {
             TraceLog(LOG_INFO, "BUTTON CLICK");
