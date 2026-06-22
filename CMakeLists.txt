@@ -8,10 +8,10 @@ endif()
 # raylib
 set(BUILD_EXAMPLES OFF CACHE BOOL "Build raylib examples")
 set(BUILD_GAMES    OFF CACHE BOOL "Build raylib games")
-add_subdirectory(lib/raylib)
+add_subdirectory(lib/raylib-6.0)
 
 # raygui
-include_directories(lib/raygui/src)
+include_directories(lib/raygui-4.0/src)
 
 # main.c
 add_executable(test main.c)
