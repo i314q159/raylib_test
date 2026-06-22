@@ -5,9 +5,10 @@
 
 #define SCREEN_H (1920 / 2)
 #define SCREEN_W (1080 / 2)
+#define SCREEN_TITLE "Raylib_Test"
 
 int main(void) {
-  InitWindow(SCREEN_H, SCREEN_W, "Raylib_Test");
+  InitWindow(SCREEN_H, SCREEN_W, SCREEN_TITLE);
   SetTargetFPS(60);
   SetWindowState(FLAG_WINDOW_RESIZABLE);
 
