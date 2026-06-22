@@ -3,53 +3,63 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
-#define SCREEN_H (1920 / 2)
-#define SCREEN_W (1080 / 2)
+#define SCREEN_W (1920 / 2)
+#define SCREEN_H (1080 / 2)
 #define SCREEN_TITLE "Raylib_Test"
 
-int main(void) {
-  InitWindow(SCREEN_H, SCREEN_W, SCREEN_TITLE);
-  SetTargetFPS(60);
-  SetWindowState(FLAG_WINDOW_RESIZABLE);
+#define UI_TEXT_FONT_SIZE 50
+#define UI_BTN_WIDTH 100
+#define UI_BTN_HEIGHT 50
+#define UI_TEXT_BTN_SPACE 20
+#define UI_COLOR_TEXT VIOLET
+#define UI_COLOR_BTN_BG VIOLET
+#define UI_COLOR_BTN_TEXT WHITE
 
-  const char *text = "Raylib_Test";
-  int fontSize = 50; // 居中显示文字的字号大小
-
-  int btnW = 100; // 按钮宽度
-  int btnH = 50;  // 按钮高度
-
-  int space = 20; // 文字底部与按钮顶部的垂直间距
-
-  // 每帧绘制
-  while (!WindowShouldClose()) {
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-
-    // 文字居中
+float DrawCenterText(const char *text, int fontSize, Color textColor) {
+    float winW = (float)GetScreenWidth();
+    float winH = (float)GetScreenHeight();
     int textW = MeasureText(text, fontSize);
-    int winW = GetScreenWidth();
-    int winH = GetScreenHeight();
-    int textX = winW / 2.0f - textW / 2.0f;
-    int textY = winH / 2.0f - fontSize / 2.0f;
-    DrawText(text, textX, textY, fontSize, VIOLET);
 
-    // 计算按钮矩形坐标：水平居中，垂直在文字下方
-    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, ColorToInt(VIOLET));
-    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, ColorToInt(WHITE));
-    Rectangle btnRect = {
-        winW / 2.0f - btnW / 2.0f, // X：窗口宽度一半 - 按钮宽一半 = 水平居中
-        textY + fontSize + space,  // Y：上方文字Y + 文字高度 + 间距
-        btnW,                      // 按钮宽度
-        btnH                       // 按钮高度
-    };
-    // 绘制按钮，点击返回true
-    if (GuiButton(btnRect, "START")) {
-      TraceLog(LOG_INFO, "按钮被点击");
+    float textX = winW / 2.0f - (float)textW / 2.0f;
+    float textY = winH / 2.0f - (float)fontSize / 2.0f;
+    DrawText(text, (int)textX, (int)textY, fontSize, textColor);
+
+    return textY + fontSize;
+}
+
+bool DrawCenterButtonBelow(float textBottomY, int btnW, int btnH, int space,
+                           const char *btnText) {
+    float winW = (float)GetScreenWidth();
+    Rectangle btnRect = {winW / 2.0f - (float)btnW / 2.0f,
+                         textBottomY + (float)space, (float)btnW, (float)btnH};
+    return GuiButton(btnRect, btnText);
+}
+
+int main(void) {
+    InitWindow(SCREEN_W, SCREEN_H, SCREEN_TITLE);
+    SetTargetFPS(60);
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
+
+    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, ColorToInt(UI_COLOR_BTN_BG));
+    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, ColorToInt(UI_COLOR_BTN_TEXT));
+
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        float textBottom =
+            DrawCenterText("Raylib_Test", UI_TEXT_FONT_SIZE, UI_COLOR_TEXT);
+        bool clicked =
+            DrawCenterButtonBelow(textBottom, UI_BTN_WIDTH, UI_BTN_HEIGHT,
+                                  UI_TEXT_BTN_SPACE, "START");
+
+        if (clicked) {
+            TraceLog(LOG_INFO, "BUTTON CLICK");
+        }
+
+        EndDrawing();
     }
 
-    EndDrawing();
-  }
-
-  CloseWindow();
-  return 0;
+    CloseWindow();
+    return 0;
 }
